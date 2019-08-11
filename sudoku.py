@@ -158,114 +158,77 @@ def solve_sudoku(puzzle):
     backtracking_nodes_list = []
     while len(possible_nums_dict) > 0:
 
+        puzzle_1 = deepcopy(puzzle)
         back_tracking_req = 1
-        len_possible_nums_dict = dict()
 
         index_tuples_list = list(possible_nums_dict.keys())
         for index_tuple in index_tuples_list:
 
             possible_nums_set = possible_nums_dict.get(index_tuple)
-            len_possible_nums_dict[index_tuple] = len(possible_nums_set)
 
             if len(possible_nums_set) == 0:
 
-                print('in len = 0')
-                for i in range(9):
-                    for j in range(9):
-                        print(puzzle[i][j], end = '   ')
-                    print('\n')
-
-                print(f'no possible num for pos: {index_tuple}')
-
                 last_backtracking_dict = backtracking_dicts_list[-1]
 
-                puzzle               = last_backtracking_dict['puzzle']
+                puzzle               = deepcopy(last_backtracking_dict['puzzle'])
                 row_try              = last_backtracking_dict['row_try']
                 col_try              = last_backtracking_dict['col_try']
                 num_try              = last_backtracking_dict['num_try']
-                possible_nums_dict   = last_backtracking_dict['possible_nums_dict']
+                possible_nums_dict   = deepcopy(last_backtracking_dict['possible_nums_dict'])
 
-                print(f'going back to backtracking node: {row_try},{col_try}')
+                possible_nums_dict.get((row_try, col_try)).discard(num_try)
+                last_backtracking_dict['possible_nums_dict'].get((row_try, col_try)).discard(num_try)
 
-                if(possible_nums_dict.get((row_try, col_try)) != None):
-                    possible_nums_dict.get((row_try, col_try)).discard(num_try)
+                if len(possible_nums_dict.get((row_try, col_try))) > 0:
+                    last_backtracking_dict['num_try'] = max(possible_nums_dict.get((row_try, col_try)))
 
                     if len(possible_nums_dict.get((row_try, col_try))) == 1:
                         backtracking_dicts_list = backtracking_dicts_list[:-1]
-                        print(f'removing backtracking node at {row_try},{col_try}')
+                        backtracking_nodes_list = backtracking_nodes_list[:-1]
 
                 else:
-                    print(f'shouldnt happen')
-                    print(f'possibilities from {row_try},{col_try} -> {possible_nums_dict.get((row_try, col_try))}')
-                    exit()
-
-                print(f'possibilities from {row_try},{col_try} -> {possible_nums_dict.get((row_try, col_try))}')
-
-                print('puzzle is now: \n')
-                for i in range(9):
-                    for j in range(9):
-                        print(puzzle[i][j], end = '   ')
-                    print('\n')
+                    backtracking_dicts_list = backtracking_dicts_list[:-1]
+                    backtracking_nodes_list = backtracking_nodes_list[:-1]
 
                 back_tracking_req = 0
                 break
 
             if len(possible_nums_set) == 1:
 
-                print(f'length = 1 for {index_tuple}')
                 back_tracking_req = 0
                 row, col = index_tuple
                 (num, ) = possible_nums_set
                 puzzle[row][col] = num
 
                 update_possible_nums_dict(puzzle, row, col, possible_nums_dict)
+
                 del possible_nums_dict[(row, col)]
 
-                print(f'removing {row},{col} from possible nums dict\n')
-                print('puzzle is now: \n')
-                for i in range(9):
-                    for j in range(9):
-                        print(puzzle[i][j], end = '   ')
-                    print('\n')
-
         if(back_tracking_req == 1): # requires backtracking
-
 
             backtracking_dict = dict()
             row_try, col_try = min(possible_nums_dict, key = possible_nums_dict.get)
             num_try = max(possible_nums_dict.get((row_try, col_try)))
             # just getting some element - here, max
 
-            puzzle_copy = deepcopy(puzzle)
-            possible_nums_dict_copy = deepcopy(possible_nums_dict)
-
-            backtracking_dict['puzzle']               = puzzle_copy
-            backtracking_dict['num_try']              = num_try
-            backtracking_dict['row_try']              = row_try
-            backtracking_dict['col_try']              = col_try
-            backtracking_dict['possible_nums_dict']   = possible_nums_dict_copy
-
             if (row_try, col_try) not in backtracking_nodes_list:
+
+                puzzle_copy = deepcopy(puzzle)
+                possible_nums_dict_copy = deepcopy(possible_nums_dict)
+
+                backtracking_dict['puzzle']               = puzzle_copy
+                backtracking_dict['num_try']              = num_try
+                backtracking_dict['row_try']              = row_try
+                backtracking_dict['col_try']              = col_try
+                backtracking_dict['possible_nums_dict']   = possible_nums_dict_copy
+
                 backtracking_nodes_list.append((row_try, col_try))
                 backtracking_dicts_list.append(backtracking_dict)
-                print(f'branching out at node: ', end = '')
-                print(f'{row_try},{col_try}')
-                print(backtracking_nodes_list)
 
             puzzle[row_try][col_try] = num_try
 
             update_possible_nums_dict(puzzle, row_try, col_try, possible_nums_dict)
             del possible_nums_dict[(row_try, col_try)]
-
-        # flag = 0
-        # for idx1, arr in enumerate(puzzle_1):
-        #     for idx2, elem in enumerate(arr):
-        #         if(elem != puzzle[idx1][idx2]):
-        #             flag = 1
-
-        # if(flag == 0):
-        #     print(f'no change in while')
-        #     exit()
 
     print('\nSolution\n')
     for i in range(9):
