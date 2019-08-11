@@ -1,7 +1,6 @@
 # input = numpy array of nans and numbers
 # output = solution numpy array
 
-# issue -> might be appending the same backtracking dicts
 import numpy as np
 from copy import deepcopy
 from collections import defaultdict
@@ -158,9 +157,7 @@ def solve_sudoku(puzzle):
     backtracking_nodes_list = []
     while len(possible_nums_dict) > 0:
 
-        puzzle_1 = deepcopy(puzzle)
         back_tracking_req = 1
-
         index_tuples_list = list(possible_nums_dict.keys())
         for index_tuple in index_tuples_list:
 
