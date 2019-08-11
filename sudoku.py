@@ -1,6 +1,3 @@
-# input = numpy array of nans and numbers
-# output = solution numpy array
-
 import numpy as np
 from copy import deepcopy
 from collections import defaultdict
