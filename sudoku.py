@@ -62,15 +62,15 @@ from collections import defaultdict
 #                    [0, 2, 8, 0, 0, 0, 0, 0, 0]])
 
 # hardest SUDOKU in the world
-PUZZLE = np.array([[8, 0, 0, 0, 0, 0, 0, 0, 0],
-                   [0, 0, 3, 6, 0, 0, 0, 0, 0],
-                   [0, 7, 0, 0, 9, 0, 2, 0, 0],
-                   [0, 5, 0, 0, 0, 7, 0, 0, 0],
-                   [0, 0, 0, 0, 4, 5, 7, 0, 0],
-                   [0, 0, 0, 1, 0, 0, 0, 3, 0],
-                   [0, 0, 1, 0, 0, 0, 0, 6, 8],
-                   [0, 0, 8, 5, 0, 0, 0, 1, 0],
-                   [0, 9, 0, 0, 0, 0, 4, 0, 0]])
+# PUZZLE = np.array([[8, 0, 0, 0, 0, 0, 0, 0, 0],
+#                    [0, 0, 3, 6, 0, 0, 0, 0, 0],
+#                    [0, 7, 0, 0, 9, 0, 2, 0, 0],
+#                    [0, 5, 0, 0, 0, 7, 0, 0, 0],
+#                    [0, 0, 0, 0, 4, 5, 7, 0, 0],
+#                    [0, 0, 0, 1, 0, 0, 0, 3, 0],
+#                    [0, 0, 1, 0, 0, 0, 0, 6, 8],
+#                    [0, 0, 8, 5, 0, 0, 0, 1, 0],
+#                    [0, 9, 0, 0, 0, 0, 4, 0, 0]])
 
 def get_filled_nums_dicts(puzzle):
 
@@ -236,11 +236,11 @@ def solve_sudoku(puzzle):
 
 def main():
 
-    # PUZZLE = np.zeros([9,9], dtype = int)
-    # for i in range(9):
-    #     for j in range(9):
-    #         num = int(input(f'enter num at ({i+1},{j+1}): '))
-    #         PUZZLE[i][j] = num
+    PUZZLE = np.zeros([9,9], dtype = int)
+    for i in range(9):
+        for j in range(9):
+            num = int(input(f'enter num at ({i+1},{j+1}): '))
+            PUZZLE[i][j] = num
 
     solve_sudoku(PUZZLE)
 
