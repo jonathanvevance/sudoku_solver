@@ -2,74 +2,22 @@ import numpy as np
 from copy import deepcopy
 from collections import defaultdict
 
-# no backtracking
-# PUZZLE = np.array([[6, 9, 0, 7, 0, 0, 0, 8, 3],
-#                    [8, 0, 5, 3, 0, 4, 0, 6, 0],
-#                    [0, 4, 0, 6, 1, 0, 0, 2, 5],
-#                    [0, 0, 6, 0, 8, 1, 2, 0, 9],
-#                    [1, 0, 9, 0, 4, 0, 8, 0, 6],
-#                    [4, 0, 2, 0, 3, 6, 5, 0, 0],
-#                    [0, 6, 8, 0, 0, 5, 3, 0, 4],
-#                    [0, 7, 0, 4, 0, 9, 6, 1, 0],
-#                    [9, 1, 0, 8, 6, 0, 0, 5, 0]])
-
-
-# backtracking (single level)
-# PUZZLE = np.array([[7, 9, 0, 0, 0, 0, 3, 0, 0],
-#                    [0, 0, 0, 0, 0, 6, 9, 0, 0],
-#                    [8, 0, 0, 0, 3, 0, 0, 7, 6],
-#                    [0, 0, 0, 0, 0, 5, 0, 0, 2],
-#                    [0, 0, 5, 4, 1, 8, 7, 0, 0],
-#                    [4, 0, 0, 7, 0, 0, 0, 0, 0],
-#                    [6, 1, 0, 0, 9, 0, 0, 0, 8],
-#                    [0, 0, 2, 3, 0, 0, 0, 0, 0],
-#                    [0, 0, 9, 0, 0, 0, 0, 5, 4]])
-
-# no backtracking
-# PUZZLE = np.array([[0, 2, 6, 0, 0, 0, 8, 1, 0],
-#                    [3, 0, 0, 7, 0, 8, 0, 0, 6],
-#                    [4, 0, 0, 0, 5, 0, 0, 0, 7],
-#                    [0, 5, 0, 1, 0, 7, 0, 9, 0],
-#                    [0, 0, 3, 9, 0, 5, 1, 0, 0],
-#                    [0, 4, 0, 3, 0, 2, 0, 5, 0],
-#                    [1, 0, 0, 0, 3, 0, 0, 0, 2],
-#                    [5, 0, 0, 2, 0, 4, 0, 0, 9],
-#                    [0, 3, 8, 0, 0, 0, 4, 6, 0]])
-
-# hard problem - nested backtracking
-# PUZZLE = np.array([[0, 0, 0, 2, 0, 0, 0, 6, 3],
-#                    [3, 0, 0, 0, 0, 5, 4, 0, 1],
-#                    [0, 0, 1, 0, 0, 3, 9, 8, 0],
-#                    [0, 0, 0, 0, 0, 0, 0, 9, 0],
-#                    [0, 0, 0, 5, 3, 8, 0, 0, 0],
-#                    [0, 3, 0, 0, 0, 0, 0, 0, 0],
-#                    [0, 2, 6, 3, 0, 0, 5, 0, 0],
-#                    [5, 0, 3, 7, 0, 0, 0, 0, 8],
-#                    [4, 7, 0, 0, 0, 1, 0, 0, 0]])
-
-# backtracking (single level)
-# PUZZLE = np.array([[0, 0, 0, 0, 0, 0, 6, 8, 0],
-#                    [0, 0, 0, 0, 7, 3, 0, 0, 9],
-#                    [3, 0, 9, 0, 0, 0, 0, 4, 5],
-#                    [4, 9, 0, 0, 0, 0, 0, 0, 0],
-#                    [8, 0, 3, 0, 5, 0, 9, 0, 2],
-#                    [0, 0, 0, 0, 0, 0, 0, 3, 6],
-#                    [9, 6, 0, 0, 0, 0, 3, 0, 8],
-#                    [7, 0, 0, 6, 8, 0, 0, 0, 0],
-#                    [0, 2, 8, 0, 0, 0, 0, 0, 0]])
-
-# hardest SUDOKU in the world
-# PUZZLE = np.array([[8, 0, 0, 0, 0, 0, 0, 0, 0],
-#                    [0, 0, 3, 6, 0, 0, 0, 0, 0],
-#                    [0, 7, 0, 0, 9, 0, 2, 0, 0],
-#                    [0, 5, 0, 0, 0, 7, 0, 0, 0],
-#                    [0, 0, 0, 0, 4, 5, 7, 0, 0],
-#                    [0, 0, 0, 1, 0, 0, 0, 3, 0],
-#                    [0, 0, 1, 0, 0, 0, 0, 6, 8],
-#                    [0, 0, 8, 5, 0, 0, 0, 1, 0],
-#                    [0, 9, 0, 0, 0, 0, 4, 0, 0]])
 
 def get_filled_nums_dicts(puzzle):
+    """
+    METHOD THAT GIVES THREE DICTIONARIES OF NUMBERS INITIALLY FILLED IN, IN ANY ROW, COLUMN OR SQUARE.
+
+    Arguments:
+        puzzle                  : 2d numpy array of zeros for unknown numbers and integers 1-9
+
+    Returns:
+        nums_in_row_dict        : dict giving the list of numbers initially filled in each row -
+                                  indexed by 0-9 integers
+        nums_in_col_dict        : dict giving the list of numbers initially filled in each column -
+                                  indexed by 0-9 integers
+        nums_in_square_dict     : dict giving the list of numbers initially filled in each square -
+                                  indexed by row_index, col_index for each big square
+    """   
 
     nums_in_row_dict = defaultdict(set)
     nums_in_col_dict = defaultdict(set)
@@ -90,7 +38,18 @@ def get_filled_nums_dicts(puzzle):
 
 
 def update_possible_nums_dict(puzzle, row, col, possible_nums_dict):
+    """
+    METHOD UPDATES THE POSSIBLE NUMBERS DICTIONARY, BY REMOVING THE NUMBER ADDED AT (ROW, COL) FROM THE LIST
+    OF POSSIBLE NUMBERS AT EACH SQUARE IN THAT PARTICULAR ROW, COLUMN AND SQUARE
 
+    Arguments:
+        puzzle              : 2d numpy array of zeros for unknown numbers and integers 1-9
+        row                 : index of row where a number was added
+        col                 : index of column where a number was added
+        possible_nums_dict  : dict which gives list of possible numbers in each square - indexed by (row index, col index)
+
+    Returns : None
+    """
     num_added = puzzle[row][col]
 
     for i in range(9):
@@ -115,6 +74,20 @@ def get_initial_possible_nums_dict(puzzle,
                                    nums_in_col_dict,
                                    nums_in_square_dict):
 
+    """
+    METHOD THAT INITIALIZES THE POSSIBLE NUMBERS DICT BASED ON THE NUMBERS KNOWN INITIALLY
+
+    Arguments:
+        puzzle                  : 2d numpy array of zeros for unknown numbers and integers 1-9
+        nums_in_row_dict        : dict giving the list of numbers initially filled in each row -
+                                  indexed by 0-9 integers
+        nums_in_col_dict        : dict giving the list of numbers initially filled in each column -
+                                  indexed by 0-9 integers
+        nums_in_square_dict     : dict giving the list of numbers initially filled in each square -
+                                  indexed by row_index, col_index for each big square
+    Returns:
+        possible_nums_dict : dict which gives list of possible numbers in each square - indexed by (row index, col index)
+    """
     all_nums_set = set(range(1, 10))
     possible_nums_dict = dict()
     for i in range(9):
@@ -135,11 +108,15 @@ def get_initial_possible_nums_dict(puzzle,
 
 def solve_sudoku(puzzle):
 
-    print('\nProblem\n')
-    for i in range(9):
-        for j in range(9):
-            print(puzzle[i][j], end = '   ')
-        print('\n')
+    """
+    METHOD THAT RETURNS THE SOLVED SUDOKU PUZZLE
+
+    Arguments:
+        puzzle             : 2d numpy array of zeros for unknown numbers and integers 1-9
+
+    Returns:
+        puzzle (MODIFIED)  : 2d numpy array with integers 1-9
+    """
 
     (nums_in_row_dict,
      nums_in_col_dict,
@@ -226,12 +203,7 @@ def solve_sudoku(puzzle):
             update_possible_nums_dict(puzzle, row_try, col_try, possible_nums_dict)
             del possible_nums_dict[(row_try, col_try)]
 
-    print('\nSolution\n')
-    for i in range(9):
-        for j in range(9):
-            print(puzzle[i][j], end = '   ')
-        print('\n')
-
+    return puzzle
 
 def main():
 
@@ -241,7 +213,20 @@ def main():
             num = int(input(f'enter num at ({i+1},{j+1}): '))
             PUZZLE[i][j] = num
 
-    solve_sudoku(PUZZLE)
+    print('\nProblem\n')
+    for i in range(9):
+        for j in range(9):
+            print(PUZZLE[i][j], end = '   ')
+        print('\n')
+
+    solution = solve_sudoku(PUZZLE)
+
+    print('\nSolution\n')
+    for i in range(9):
+        for j in range(9):
+            print(solution[i][j], end = '   ')
+        print('\n')
+
 
 
 if __name__ == '__main__':
