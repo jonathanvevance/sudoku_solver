@@ -161,6 +161,7 @@ def solve_sudoku(puzzle):
             possible_nums_set = possible_nums_dict.get(index_tuple)
 
             if len(possible_nums_set) == 0:
+            # go to previous node and take a new branch, or delete the last node if all branches have been checked
 
                 last_backtracking_dict = backtracking_dicts_list[-1]
 
@@ -198,7 +199,8 @@ def solve_sudoku(puzzle):
 
                 del possible_nums_dict[(row, col)]
 
-        if(back_tracking_req == 1): # requires backtracking
+        if(back_tracking_req == 1):
+        # set the current position as backtracking node
 
             backtracking_dict = dict()
             row_try, col_try = min(possible_nums_dict, key = possible_nums_dict.get)
@@ -244,3 +246,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
