@@ -206,19 +206,22 @@ def solve_sudoku(puzzle):
 
 def main():
 
-    PUZZLE = np.zeros([9,9], dtype = int)
-    for i in range(9):
-        for j in range(9):
-            num = int(input(f'enter num at ({i+1},{j+1}): '))
-            PUZZLE[i][j] = num
+    puzzle = []
+
+    for i in  range(9):
+        row_entries = input(f'Enter row {i + 1} : ')
+        row_entries_array = np.array([int(num) for num in row_entries.split()])
+        puzzle.append(row_entries_array)
+
+    puzzle = np.array(puzzle)
 
     print('\nProblem\n')
     for i in range(9):
         for j in range(9):
-            print(PUZZLE[i][j], end = '   ')
+            print(puzzle[i][j], end = '   ')
         print('\n')
 
-    solution = solve_sudoku(PUZZLE)
+    solution = solve_sudoku(puzzle)
 
     print('\nSolution\n')
     for i in range(9):
