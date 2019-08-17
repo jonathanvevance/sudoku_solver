@@ -107,7 +107,6 @@ def get_initial_possible_nums_dict(puzzle,
 
 
 def solve_sudoku(puzzle):
-
     """
     METHOD THAT RETURNS THE SOLVED SUDOKU PUZZLE
 
