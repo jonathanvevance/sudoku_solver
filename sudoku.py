@@ -31,8 +31,12 @@ sudoku_model = pickle.load(open(sudoku_model_pkl, 'rb'))
 board = detect_board(args['imgpath'], sudoku_model)
 print('\nBoard detected: ')
 print_sudoku(board)
-solution = solve_sudoku(board)
-print('\nSOLUTION: ')
-print_sudoku(solution)
+
+try:
+    solution = solve_sudoku(board)
+    print('\nSOLUTION: ')
+    print_sudoku(solution)
+else:
+    prunt('Detected board is not a valid sudoku puzzle')
 
 
