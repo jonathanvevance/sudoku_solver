@@ -5,7 +5,7 @@ Steps to run the code:
 * Clone the repository to local
 * Open command prompt 
 
-      ```Powershell
+```Powershell
       python sudoku.py --i (path of image file)
-      ```
+```
 * The detected board and solution are displayed
