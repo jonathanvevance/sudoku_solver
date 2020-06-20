@@ -1,9 +1,11 @@
-# sudoku_solver
+## sudoku_solver?
+Detect and solve sudoku photos (specifically, newspaper photos)
 
-To use the code:
-
-Step 1: Run the code
-
-Step 2: Enter the known numbers at each position of the 9X9 matrix. For blanks, enter zeros.
-
-Step 3: The solution is displayed
+Steps to run the code:
+* Clone the repository to local
+* Open command prompt 
+* Run: 
+```console
+python sudoku.py --i (path of image file)
+```
+* The detected board and solution are displayed
