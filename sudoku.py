@@ -37,6 +37,6 @@ try:
     print('\nSOLUTION: ')
     print_sudoku(solution)
 else:
-    prunt('Detected board is not a valid sudoku puzzle')
+    prunt('\nDetected board is not a valid sudoku puzzle')
 
 
